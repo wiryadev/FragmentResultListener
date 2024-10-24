@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="simple_dialog">Dialog sederhana</string>
+    <string name="choose_alive_status">Pilih Status Hidup</string>
+    <string name="still_alive">Menikmati Hidup</string>
+    <string name="dead_inside">Cape Hidup</string>
+    <string name="do_you_like_pet">Suka Hewan Piaraan?</string>
+    <string name="like_pet">Suka</string>
+    <string name="hate_pet">Ga suka</string>
+    <string name="how_enjoy_porridge">Makan buburnya gimana</string>
+    <string name="stirred">Diaduk</string>
+    <string name="not_stirred">Ga Diaduk</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name" translatable="false">FragmentResultListener</string>
+    <string name="simple_dialog">Simple dialog</string>
+    <string name="choose_alive_status">Choose Life Status</string>
+    <string name="still_alive">Still Alive</string>
+    <string name="dead_inside">Dead Inside</string>
+    <string name="do_you_like_pet">Do you Like Pet</string>
+    <string name="like_pet">LIKE PET</string>
+    <string name="hate_pet">HATE PET</string>
+    <string name="how_enjoy_porridge">How do you enjoy porridge</string>
+    <string name="stirred">Stirred</string>
+    <string name="not_stirred">Not Stirred</string>
+</resources>
