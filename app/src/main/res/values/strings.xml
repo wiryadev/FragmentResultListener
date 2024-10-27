@@ -11,4 +11,7 @@
     <string name="stirred">Stirred</string>
     <string name="not_stirred">Not Stirred</string>
     <string name="nested_confirmation_dialog">Nested Confirmation Dialog</string>
+    <string name="confirm_delete">Confirm Deletion?</string>
+    <string name="delete">Delete</string>
+    <string name="shuffle">Shuffle</string>
 </resources>

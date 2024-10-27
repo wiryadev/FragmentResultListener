@@ -11,4 +11,12 @@ data class ConfirmationDialogData(
     @StringRes val negativeButtonText: Int? = null,
     val positiveActionResultKey: String = "",
     val negativeActionResultKey: String = "",
+    val positiveActionReturnData: ConfirmationDialogReturnData<*>? = null,
+    val negativeActionReturnData: ConfirmationDialogReturnData<*>? = null,
+) : Parcelable
+
+@Parcelize
+data class ConfirmationDialogReturnData<T : Parcelable>(
+    val resultKey: String,
+    val data: T,
 ) : Parcelable

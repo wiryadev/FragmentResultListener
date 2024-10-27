@@ -85,23 +85,31 @@ class ConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun onPositiveClick() {
+        val bundle: MutableMap<String, Any?> = mutableMapOf(
+            RESULT_KEY to data?.positiveActionResultKey.orEmpty()
+                .ifEmpty { POSITIVE_BUTTON_CLICK },
+        )
+        data?.positiveActionReturnData?.let {
+            bundle[it.resultKey] = it.data
+        }
         setFragmentResult(
             REQUEST_KEY,
-            bundleOf(
-                RESULT_KEY to data?.positiveActionResultKey.orEmpty()
-                    .ifEmpty { POSITIVE_BUTTON_CLICK },
-            )
+            bundleOf(*bundle.toList().toTypedArray()),
         )
         dismiss()
     }
 
     private fun onNegativeClick() {
+        val bundle: MutableMap<String, Any?> = mutableMapOf(
+            RESULT_KEY to data?.negativeActionResultKey.orEmpty()
+                .ifEmpty { NEGATIVE_BUTTON_CLICK },
+        )
+        data?.negativeActionReturnData?.let {
+            bundle[it.resultKey] = it.data
+        }
         setFragmentResult(
             REQUEST_KEY,
-            bundleOf(
-                RESULT_KEY to data?.negativeActionResultKey.orEmpty()
-                    .ifEmpty { NEGATIVE_BUTTON_CLICK },
-            )
+            bundleOf(*bundle.toList().toTypedArray()),
         )
         dismiss()
     }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wiryadev.fragmentresultlistener.confirmationwithdata.ConfirmationWithDataActivity
 import com.wiryadev.fragmentresultlistener.model.ConfirmationDialogData
 
 class MainActivity : AppCompatActivity() {
@@ -98,6 +99,12 @@ class MainActivity : AppCompatActivity() {
                 NestedBottomSheetFragment
                     .newInstance()
                     .show(supportFragmentManager, null)
+            }
+
+            SampleItemContent.CONFIRMATION_WITH_DATA -> {
+                startActivity(
+                    Intent(this@MainActivity, ConfirmationWithDataActivity::class.java)
+                )
             }
         }
     }

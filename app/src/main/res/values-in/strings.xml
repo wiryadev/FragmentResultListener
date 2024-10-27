@@ -11,4 +11,7 @@
     <string name="stirred">Diaduk</string>
     <string name="not_stirred">Ga Diaduk</string>
     <string name="nested_confirmation_dialog">Dialog Konfirmasi Bersarang</string>
+    <string name="confirm_delete">Konfirmasi Penghapusan</string>
+    <string name="delete">Hapus</string>
+    <string name="shuffle">Acak</string>
 </resources>
