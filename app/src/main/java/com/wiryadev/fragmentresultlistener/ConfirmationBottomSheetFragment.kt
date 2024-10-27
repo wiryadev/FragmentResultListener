@@ -4,10 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.compose.content
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.wiryadev.fragmentresultlistener.databinding.FragmentConfirmationBottomSheetBinding
 import com.wiryadev.fragmentresultlistener.model.ConfirmationDialogData
 
 class ConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
@@ -28,54 +42,69 @@ class ConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var data: ConfirmationDialogData? = null
 
-    private var _binding: FragmentConfirmationBottomSheetBinding? = null
-    val binding: FragmentConfirmationBottomSheetBinding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentConfirmationBottomSheetBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        data = arguments?.getParcelable(DATA)
+        return content {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<ConfirmationDialogData>(DATA)?.let {
-            data = it
-        }
-
-        data?.let {
-            binding.tvTitle.text = getString(it.title)
-            binding.btnPositive.text = it.positiveButtonText?.let(::getString) ?: "Positive"
-            binding.btnNegative.text = it.negativeButtonText?.let(::getString) ?: "Negative"
-        }
-
-        binding.apply {
-            btnPositive.setOnClickListener {
-                setFragmentResult(
-                    REQUEST_KEY,
-                    bundleOf(
-                        RESULT_KEY to data?.positiveActionResultKey.orEmpty().ifEmpty { POSITIVE_BUTTON_CLICK },
-                    )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    data?.let { stringResource(id = it.title) } ?: "",
+                    style = MaterialTheme.typography.titleMedium,
                 )
-                dismiss()
-            }
-            btnNegative.setOnClickListener {
-                setFragmentResult(
-                    REQUEST_KEY,
-                    bundleOf(
-                        RESULT_KEY to data?.negativeActionResultKey.orEmpty().ifEmpty { NEGATIVE_BUTTON_CLICK },
-                    )
-                )
-                dismiss()
+                Row(
+                    modifier = Modifier.padding(top = 24.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = ::onNegativeClick,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text(
+                            data?.negativeButtonText?.let(::getString) ?: "Negative"
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = ::onPositiveClick,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text(
+                            data?.positiveButtonText?.let(::getString) ?: "Positive"
+                        )
+                    }
+                }
             }
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    private fun onPositiveClick() {
+        setFragmentResult(
+            REQUEST_KEY,
+            bundleOf(
+                RESULT_KEY to data?.positiveActionResultKey.orEmpty()
+                    .ifEmpty { POSITIVE_BUTTON_CLICK },
+            )
+        )
+        dismiss()
     }
+
+    private fun onNegativeClick() {
+        setFragmentResult(
+            REQUEST_KEY,
+            bundleOf(
+                RESULT_KEY to data?.negativeActionResultKey.orEmpty()
+                    .ifEmpty { NEGATIVE_BUTTON_CLICK },
+            )
+        )
+        dismiss()
+    }
+
 }

@@ -1,11 +1,18 @@
 package com.wiryadev.fragmentresultlistener
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.wiryadev.fragmentresultlistener.databinding.ActivityMultiConfirmBinding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.wiryadev.fragmentresultlistener.model.ConfirmationDialogData
 
 class MultiConfirmActivity : AppCompatActivity() {
@@ -19,23 +26,32 @@ class MultiConfirmActivity : AppCompatActivity() {
         private const val UNSTIRRED_PORRIDGE = "multi_confirm_activity_unstirred_porridge"
     }
 
-    private lateinit var binding: ActivityMultiConfirmBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMultiConfirmBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        setContent {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Button(onClick = ::onConfirmLife) {
+                    Text("Still alive?")
+                }
+                Button(onClick = ::onConfirmPet) {
+                    Text("Like pet?")
+                }
+                Button(onClick = ::onPickPorridge) {
+                    Text("How you enjoy Porridge?")
+                }
+            }
         }
 
-        supportFragmentManager.setFragmentResultListener(
-            ConfirmationBottomSheetFragment.REQUEST_KEY,
-            this
-        ) { _, bundle ->
+        initFragmentResultListener(ConfirmationBottomSheetFragment.REQUEST_KEY) { bundle ->
             when (bundle.getString(ConfirmationBottomSheetFragment.RESULT_KEY)) {
                 STILL_ALIVE -> showToast(getString(R.string.still_alive))
                 DEAD_INSIDE -> showToast(getString(R.string.dead_inside))
@@ -45,43 +61,43 @@ class MultiConfirmActivity : AppCompatActivity() {
                 UNSTIRRED_PORRIDGE -> showToast(getString(R.string.not_stirred))
             }
         }
+    }
 
-        with(binding) {
-            btnConfirmLife.setOnClickListener {
-                ConfirmationBottomSheetFragment
-                    .newInstance(
-                        ConfirmationDialogData(
-                            title = R.string.choose_alive_status,
-                            positiveActionResultKey = STILL_ALIVE,
-                            negativeActionResultKey = DEAD_INSIDE,
-                        )
-                    )
-                    .show(supportFragmentManager, null)
-            }
-            btnConfirmPet.setOnClickListener {
-                ConfirmationBottomSheetFragment
-                    .newInstance(
-                        ConfirmationDialogData(
-                            title = R.string.do_you_like_pet,
-                            positiveActionResultKey = LIKE_PET,
-                            negativeActionResultKey = HATE_PET,
-                        )
-                    )
-                    .show(supportFragmentManager, null)
-            }
-            btnPickPorridge.setOnClickListener {
-                ConfirmationBottomSheetFragment
-                    .newInstance(
-                        ConfirmationDialogData(
-                            title = R.string.how_enjoy_porridge,
-                            positiveButtonText = R.string.stirred,
-                            negativeButtonText = R.string.not_stirred,
-                            positiveActionResultKey = STIRRED_PORRIDGE,
-                            negativeActionResultKey = UNSTIRRED_PORRIDGE,
-                        )
-                    )
-                    .show(supportFragmentManager, null)
-            }
-        }
+    private fun onConfirmLife() {
+        ConfirmationBottomSheetFragment
+            .newInstance(
+                ConfirmationDialogData(
+                    title = R.string.choose_alive_status,
+                    positiveActionResultKey = STILL_ALIVE,
+                    negativeActionResultKey = DEAD_INSIDE,
+                )
+            )
+            .show(supportFragmentManager, null)
+    }
+
+    private fun onConfirmPet() {
+        ConfirmationBottomSheetFragment
+            .newInstance(
+                ConfirmationDialogData(
+                    title = R.string.do_you_like_pet,
+                    positiveActionResultKey = LIKE_PET,
+                    negativeActionResultKey = HATE_PET,
+                )
+            )
+            .show(supportFragmentManager, null)
+    }
+
+    private fun onPickPorridge() {
+        ConfirmationBottomSheetFragment
+            .newInstance(
+                ConfirmationDialogData(
+                    title = R.string.how_enjoy_porridge,
+                    positiveButtonText = R.string.stirred,
+                    negativeButtonText = R.string.not_stirred,
+                    positiveActionResultKey = STIRRED_PORRIDGE,
+                    negativeActionResultKey = UNSTIRRED_PORRIDGE,
+                )
+            )
+            .show(supportFragmentManager, null)
     }
 }
