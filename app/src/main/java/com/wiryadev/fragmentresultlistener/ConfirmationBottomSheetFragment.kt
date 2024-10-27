@@ -49,7 +49,6 @@ class ConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
     ): View {
         data = arguments?.getParcelable(DATA)
         return content {
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

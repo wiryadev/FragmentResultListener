@@ -60,15 +60,24 @@ class MainActivity : AppCompatActivity() {
         ) { bundle ->
             when (bundle.getString(ConfirmationBottomSheetFragment.RESULT_KEY)) {
                 ConfirmationBottomSheetFragment.POSITIVE_BUTTON_CLICK -> {
-                    showToast("Positive Clicked")
+                    showToast("Simple Positive Clicked Received by Main Screen")
                 }
 
                 ConfirmationBottomSheetFragment.NEGATIVE_BUTTON_CLICK -> {
-                    showToast("Negative Clicked")
+                    showToast("Simple Negative Clicked Received by Main Screen")
                 }
             }
         }
 
+        initFragmentResultListener(
+            NestedBottomSheetFragment.REQUEST_KEY,
+        ) { bundle ->
+            when (bundle.getString(NestedBottomSheetFragment.RESULT_KEY)) {
+                NestedBottomSheetFragment.ON_DISMISSED -> {
+                    showToast("Nested Sheet Dismissed")
+                }
+            }
+        }
     }
 
     private fun onContentClick(content: SampleItemContent) {
@@ -83,6 +92,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(
                     Intent(this@MainActivity, MultiConfirmActivity::class.java)
                 )
+            }
+
+            SampleItemContent.CORRECT_NESTED_MODAL -> {
+                NestedBottomSheetFragment
+                    .newInstance()
+                    .show(supportFragmentManager, null)
             }
         }
     }

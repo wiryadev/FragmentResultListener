@@ -10,4 +10,5 @@
     <string name="how_enjoy_porridge">Makan buburnya gimana</string>
     <string name="stirred">Diaduk</string>
     <string name="not_stirred">Ga Diaduk</string>
+    <string name="nested_confirmation_dialog">Dialog Konfirmasi Bersarang</string>
 </resources>
